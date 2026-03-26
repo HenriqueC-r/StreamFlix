@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Netflix</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <h1>Netflix</h1>
+        <p>Selecione o perfil para continuar</p>
+    </header>
+
+    <main>
+        <section aria-labelledby="profile-title">
+            <h2 id="profile-title">Quem está assistindo?</h2>
+            <ul class="profiles">
+                <li class="profile">
+                    <button type="button" aria-label="Selecionar perfil Caio" onclick="window.location.href='home.html?perfil=Caio'">
+                        <img src="assets/gyro.jpg" alt="Avatar de Caio" height="150" width="150">
+                        <h1>Caio</h1>
+                        
+                    </button>
+                </li>
+                <li class="profile">
+                    <button type="button" aria-label="Selecionar perfil Mirian" onclick="window.location.href='home.html?perfil=Mirian'">
+                        <img src="assets/minions.jpeg" alt="Avatar de Mirian" height="150" width="150">
+                        <h1>Mirian</h1>
+                    </button>
+                </li>
+                <li class="profile">
+                    <button type="button" aria-label="Selecionar perfil Rebeca" onclick="window.location.href='home.html?perfil=Rebeca'">
+                        <img src="assets/ratofeio.jpg" alt="Avatar de Rebeca" height="150" width="150">
+                        <h1>Rebeca</h1>
+                    </button>
+                </li> 
+                <li class="profile">
+                    <button type="button" aria-label="Selecionar perfil Lucas" onclick="window.location.href='home.html?perfil=Lucas'">
+                        <img src="assets/capivara.png" alt="Avatar de Lucas" height="150" width="150">
+                        <h1>Lucas</h1>
+                    </button>
+                </li>
+            </ul>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2026 Netflix</p>
+    </footer>
+</body>
+</html>

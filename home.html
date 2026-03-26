@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Netflix - Home</title>
+    <!-- Importar estilos globais -->
+    <link rel="stylesheet" href="styles.css">
+    <!-- Estilos específicos da página home -->
+    <style>
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        /* Container esquerdo: agrupa logo Netflix e info do perfil */
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        header h1 {
+            margin: 0;
+        }
+
+        /* Info do perfil: avatar e nome na barra do header */
+        .profile-info {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.5rem 1rem;
+            background: rgba(51, 51, 51, 0.5);
+            border-radius: 0.5rem;
+            border: 1px solid #2b2b2b;
+        }
+
+        .profile-info img {
+            width: 40px;
+            height: 40px;
+            border-radius: 0.25rem;
+            object-fit: cover;
+        }
+
+        .profile-info span {
+            font-size: 0.95rem;
+            color: var(--text);
+        }
+
+        .back-btn {
+            padding: 0.5rem 1rem;
+            background: var(--card);
+            color: var(--text);
+            border: 1px solid #2b2b2b;
+            border-radius: 0.5rem;
+            cursor: pointer;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            font-size: 0.95rem;
+        }
+
+        .back-btn:hover {
+            background: var(--card-hover);
+            border-color: var(--red);
+        }
+
+        /* Grade responsiva para exibir conteúdo (filmes/séries) */
+        .content-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .content-card {
+            background: var(--card);
+            border-radius: 0.75rem;
+            overflow: hidden;
+            cursor: pointer;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border: 1px solid #2b2b2b;
+        }
+
+        .content-card:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 16px rgba(229, 9, 20, 0.3);
+            border-color: var(--red);
+        }
+
+        /* Imagem do card de conteúdo */
+        .content-card img {
+            width: 100%;
+            height: 280px;
+            object-fit: cover;
+        }
+
+        .content-card-info {
+            padding: 1rem;
+        }
+
+        .content-card-info h3 {
+            margin: 0 0 0.5rem;
+            font-size: 1rem;
+            color: var(--text);
+        }
+
+        .content-card-info p {
+            margin: 0;
+            font-size: 0.85rem;
+            color: var(--muted);
+        }
+
+        @media (max-width: 767px) {
+            header {
+                padding: 1rem;
+            }
+
+            .header-left {
+                width: 100%;
+                justify-content: flex-start;
+            }
+
+            .profile-info {
+                font-size: 0.85rem;
+                padding: 0.4rem 0.8rem;
+            }
+
+            .profile-info img {
+                width: 35px;
+                height: 35px;
+            }
+
+            .back-btn {
+                padding: 0.4rem 0.8rem;
+                font-size: 0.9rem;
+            }
+
+            .content-grid {
+                grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+                gap: 1rem;
+            }
+
+            .content-card img {
+                height: 220px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- CABEÇALHO: Branding Netflix, info do perfil e botão de volta -->
+    <header>
+        <div class="header-left">
+            <h1>Netflix</h1>
+            <!-- Container do perfil: mostra avatar e nome -->
+            <div class="profile-info" id="profile-info"></div>
+        </div>
+        <!-- Botão para voltar à página de seleção de perfis -->
+        <a href="index.html" class="back-btn">← Voltar para Perfis</a>
+    </header>
+
+    <!-- CONTEÚDO PRINCIPAL: Grid de filmes/séries para assistir -->
+    <main>
+        <section>
+            <h2>Destaques para você</h2>
+            <!-- Grid que será preenchido dinamicamente com JavaScript -->
+            <div class="content-grid" id="content-grid"></div>
+        </section>
+    </main>
+
+    <!-- RODAPÉ: Copyright -->
+    <footer>
+        <p>&copy; 2026 Netflix</p>
+    </footer>
+
+    <!-- SCRIPT: Gerencia comportamento dinâmico da página -->
+    <script>
+     
+        // 1. OBTER O PERFIL SELECIONADO DA URL
+ 
+        // Extrai o parâmetro "perfil" que foi enviado por index.html
+        const urlParams = new URLSearchParams(window.location.search);
+        const perfilSelecionado = urlParams.get('perfil') || 'Visitante';
+
+      
+        // 2. MAPEAR PERFIS COM SEUS AVATARES
+  
+        // Define qual imagem será usada para cada perfil
+        const perfilData = {
+            'Caio': { img: 'assets/gyro.jpg', alt: 'Avatar de Caio' },
+            'Mirian': { img: 'assets/minions.jpeg', alt: 'Avatar de Mirian' },
+            'Rebeca': { img: 'assets/ratofeio.jpg', alt: 'Avatar de Rebeca' },
+            'Lucas': { img: 'assets/capivara.png', alt: 'Avatar de Lucas' }
+        };
+
+        // 3. DEFINIR CONTEÚDO (FILMES/SÉRIES)
+
+        // Array com informações dos filmes/séries a serem exibidos
+        const conteudo = [
+            { titulo: 'Steel Ball Run', classe: 'assets/jojo.jpeg', descricao: 'Corrida épica pelos EUA com competidores únicos' },
+            { titulo: 'Para todos Os Garotos Que Ja Amei', classe: 'assets/larajean.jpeg', descricao: 'Jovem vê sua vida amorosa mudar de forma inesperada' },
+            { titulo: 'Coração Marcado', classe: 'assets/marcado.jpg', descricao: 'Histórias se cruzam após um evento marcante' },
+            { titulo: 'Os Mercenarios', classe: 'assets/os mercenarios.jpeg', descricao: 'Equipe de elite enfrenta missões perigosas' },
+            { titulo: 'Ratatouille', classe: 'assets/ratatoule.jpeg', descricao: 'Talento improvável na cozinha de Paris' },
+            { titulo: 'Breaking Bad', classe: 'assets/breaking.jpeg', descricao: 'Um homem comum toma decisões que mudam seu rumo' },
+            { titulo: 'Peaky Blinders', classe: 'assets/peakblinder.jpg', descricao: 'Família poderosa cresce no submundo do crime' },
+            { titulo: 'Clube Da Luta', classe: 'assets/clubedaluta.jpg', descricao: 'Um encontro inusitado leva a algo fora do comum' }
+        ];
+
+      
+        // 4. PREENCHER INFORMAÇÕES DO PERFIL NO HEADER
+
+        // Busca o elemento (div) onde o perfil será mostrado
+        // e adiciona o avatar + nome do perfil que foi selecionado
+        const profileInfo = document.getElementById('profile-info');
+        const perfil = perfilData[perfilSelecionado];
+        if (perfil) {
+            profileInfo.innerHTML = `
+                <img src="${perfil.img}" alt="${perfil.alt}">
+                <span>Assistindo como: <strong>${perfilSelecionado}</strong></span>
+            `;
+        }
+        
+        // 5. RENDERIZAR GRID DE CONTEÚDO
+       
+        // Cria cards dinamicamente para cada filme/série
+        // e adiciona no grid da página
+        const contentGrid = document.getElementById('content-grid');
+        conteudo.forEach(item => {
+            const card = document.createElement('div');
+            card.className = 'content-card';
+            card.innerHTML = `
+                <img src="${item.classe}" alt="${item.titulo}">
+                <div class="content-card-info">
+                    <h3>${item.titulo}</h3>
+                    <p>${item.descricao}</p>
+                </div>
+            `;
+            contentGrid.appendChild(card);
+        });
+    </script>
+</body>
+</html>
